@@ -1,0 +1,2 @@
+docker-compose exec kafka-server bin/kafka-topics.sh --list --bootstrap-server broker:9092
+raw-events

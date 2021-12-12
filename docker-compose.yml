@@ -1,0 +1,45 @@
+version: '3.5'
+services:
+ 
+  zookeeper:
+    build:
+      context: ./kafka
+      dockerfile: Dockerfile
+    networks: 
+    - kafka-net
+    hostname: zookeeper
+    container_name: zookeeper
+    ports:
+      - "2181:2181"
+    command: bin/zookeeper-server-start.sh config/zookeeper.properties 
+ 
+  kafka-server:
+    build:
+      context: ./kafka
+      dockerfile: Dockerfile
+    networks: 
+    - kafka-net
+    hostname: broker
+    container_name: kafka-server
+    ports:
+      - "9092:9092"
+    depends_on:
+    - zookeeper
+    command: bin/kafka-server-start.sh config/server.properties --override zookeeper.connect=zookeeper:2181
+      
+  ui:
+    image: obsidiandynamics/kafdrop:latest
+    networks:
+    - kafka-net
+    ports:
+    #ui then will be available at http://localhost:9000
+    - "9000:9000"
+    container_name: ui
+    environment:
+      KAFKA_BROKERCONNECT: broker:9092
+      JVM_OPTS: -Xms32M -Xmx64M
+      SERVER_SERVLET_CONTEXTPATH: / 
+
+networks:
+  kafka-net:
+    driver: bridge
