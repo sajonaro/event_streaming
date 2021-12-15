@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "kafka-node": "^5.0.0",
+    "yargs": "^17.3.0"
+  }
+}

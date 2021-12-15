@@ -40,6 +40,17 @@ services:
       JVM_OPTS: -Xms32M -Xmx64M
       SERVER_SERVLET_CONTEXTPATH: / 
 
+  node-client:
+    build:
+      context: ./producer
+      dockerfile: Dockerfile
+    networks:
+    - kafka-net
+    hostname: producer
+    container_name: producer
+    ports:
+    - "8000:8000"
+
 networks:
   kafka-net:
     driver: bridge
