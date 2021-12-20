@@ -42,7 +42,7 @@ services:
 
   node-client:
     build:
-      context: ./producer
+      context: ./clients/node
       dockerfile: Dockerfile
     networks:
     - kafka-net
@@ -50,6 +50,15 @@ services:
     container_name: producer
     ports:
     - "8000:8000"
+
+  clj:
+    build:
+      context: ./clients/clojure
+      dockerfile: Dockerfile
+    networks:
+    - kafka-net
+    hostname: clj
+    container_name: clj
 
 networks:
   kafka-net:
