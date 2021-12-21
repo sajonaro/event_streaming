@@ -1,5 +1,4 @@
-FROM  jboss/immutant
-WORKDIR /app
-COPY /app .
-CMD lein uberjar
-ENTRYPOINT [ "java", "-jar", "target/standalone.jar" ]
+FROM clojure
+COPY ./app /usr/src/app
+WORKDIR /usr/src/app
+CMD ["lein", "run"]
